@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>💳 AI Wallet — Presupuesto Autónomo para IA</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/wallet.css">
+</head>
+<body>
+<div class="container">
+    <!-- Header -->
+    <header class="header">
+        <div>
+            <h1><span>💳</span> AI <em>Wallet</em></h1>
+            <p class="subtitle">Presupuesto autónomo para inteligencia artificial</p>
+        </div>
+        <div class="header-badges">
+            <span class="badge live">🟢 LIVE</span>
+            <span class="badge">v1.0</span>
+        </div>
+    </header>
+
+    <!-- Hero Saldo -->
+    <section class="hero" id="heroCard">
+        <div class="hero-top">
+            <span class="hero-label">💰 Saldo disponible</span>
+            <span class="hero-owner" id="heroOwner">—</span>
+        </div>
+        <div class="hero-saldo" id="heroSaldo">—</div>
+        <div class="hero-meta">
+            <div class="hero-stat">
+                <span class="hero-stat-label">Presupuesto</span>
+                <span class="hero-stat-val" id="heroPresupuesto">—</span>
+            </div>
+            <div class="hero-stat">
+                <span class="hero-stat-label">Gastado este mes</span>
+                <span class="hero-stat-val red" id="heroGastado">—</span>
+            </div>
+            <div class="hero-stat">
+                <span class="hero-stat-label">Disponible</span>
+                <span class="hero-stat-val green" id="heroDisponible">—</span>
+            </div>
+        </div>
+        <div class="progress-wrap">
+            <div class="progress-header">
+                <span class="progress-label">Uso del presupuesto</span>
+                <span class="progress-pct" id="heroPct">0%</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" id="heroBar" style="width:0%"></div></div>
+        </div>
+    </section>
+
+    <!-- Grid: Agentes + Categorías -->
+    <div class="grid grid-2">
+        <section class="card">
+            <h3 class="card-title"><span class="icon">🤖</span> Agentes</h3>
+            <div id="agentesList" class="agent-list">
+                <div class="loading">Cargando...</div>
+            </div>
+        </section>
+
+        <section class="card">
+            <h3 class="card-title"><span class="icon">📊</span> Gasto por categoría</h3>
+            <div id="catList">
+                <div class="loading">Cargando...</div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Transacciones -->
+    <section class="card" style="margin-top:20px">
+        <div class="card-header-row">
+            <h3 class="card-title"><span class="icon">📋</span> Últimas transacciones</h3>
+            <div class="filters">
+                <select id="filterAgent" onchange="filterTx()">
+                    <option value="">Todos</option>
+                </select>
+                <select id="filterCat" onchange="filterTx()">
+                    <option value="">Todas</option>
+                </select>
+            </div>
+        </div>
+        <div id="txList" class="tx-list">
+            <div class="loading">Cargando...</div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="foot">
+        💳 AI Wallet · Inventado por Antonio Rubia · MIRINDA + GROK
+        <br><a href="https://github.com/mirindacorner-alt/ai-wallet" target="_blank">GitHub</a>
+    </footer>
+</div>
+
+<script src="js/wallet.js"></script>
+</body>
+</html>
