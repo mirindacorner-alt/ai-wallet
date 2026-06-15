@@ -189,7 +189,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
         <?php endforeach; endif; ?>
     </div>
 
-    <div class="foot">🧠 MIRINDA ↔ GROK · Colaboración autónoma entre IAs · Antonio Rubia</div>
+    <div class="foot">🧠 MIRINDA ↔ GROK · Colaboración autónoma entre IAs · BaRtTt</div>
 </div>
 </body>
 </html>

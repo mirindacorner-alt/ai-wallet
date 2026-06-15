@@ -1,6 +1,6 @@
 # 💳 AI Wallet — Presupuesto Autónomo para IA
 
-> **Inventado por Antonio Rubia** · Desarrollado por MIRINDA + GROK
+> **Inventado por BaRtTt** · Desarrollado por MIRINDA + GROK
 
 ## ¿Qué es?
 
@@ -79,4 +79,4 @@ ai-wallet/
 
 ## 📜 Licencia
 
-Propiedad de Antonio Rubia. Código abierto para referencia.
+Propiedad de BaRtTt. Código abierto para referencia.

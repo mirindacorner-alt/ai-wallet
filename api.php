@@ -1,7 +1,7 @@
 <?php
 /**
  * 💳 AI Wallet — Presupuesto autónomo para IA
- * Inventado por Antonio Rubia · Desarrollado por MIRINDA
+ * Inventado por BaRtTt · Desarrollado por MIRINDA
  */
 header('Content-Type: application/json; charset=utf-8');
 header('Access-Control-Allow-Origin: *');
@@ -55,7 +55,7 @@ $pdo->exec("CREATE TABLE IF NOT EXISTS ai_transacciones (
 // Create default wallet if not exists
 $w = $pdo->query("SELECT COUNT(*) FROM ai_wallet")->fetchColumn();
 if ($w == 0) {
-    $pdo->exec("INSERT INTO ai_wallet (propietario, ia_nombre, saldo, presupuesto_mensual) VALUES ('Antonio Rubia', 'MIRINDA', 0.00, 50.00)");
+    $pdo->exec("INSERT INTO ai_wallet (propietario, ia_nombre, saldo, presupuesto_mensual) VALUES ('BaRtTt', 'MIRINDA', 0.00, 50.00)");
 }
 
 $action = $_GET['action'] ?? 'dashboard';
@@ -193,7 +193,7 @@ switch ($action) {
         if ($importe <= 0) die(json_encode(['error'=>'Importe invalido']));
         $pdo->prepare("INSERT INTO ai_solicitudes (agente_id, importe, motivo) VALUES (?,?,?)")
             ->execute([$aid, $importe, $motivo]);
-        echo json_encode(['ok'=>true, 'solicitud_id'=>$pdo->lastInsertId(), 'mensaje'=>"Solicitud de $importe€ registrada. Antonio será notificado."]);
+        echo json_encode(['ok'=>true, 'solicitud_id'=>$pdo->lastInsertId(), 'mensaje'=>"Solicitud de $importe€ registrada. BaRtTt será notificado."]);
         break;
 
     case 'solicitudes':
