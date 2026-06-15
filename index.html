@@ -76,6 +76,8 @@
                 <button class="action-btn ingreso" onclick="showModal('ingreso')">📥 Cargar fondos</button>
                 <a href="grok-board.php" class="action-btn board">🧠 GROK Board</a>
                 <a href="/nucleo-hub/ai_wallet.php" class="action-btn admin">🔒 Panel admin</a>
+                <button class="action-btn solicitar" onclick="solicitarFondos()">📨 Solicitar fondos</button>
+                <button class="action-btn export" onclick="exportCSV()">📥 Exportar CSV</button>
             </div>
         </section>
     </div>
@@ -109,7 +111,8 @@
         💳 AI Wallet · Inventado por <strong>Antonio Rubia</strong> · MIRINDA + GROK<br>
         <a href="https://github.com/mirindacorner-alt/ai-wallet" target="_blank">GitHub</a> ·
         <a href="grok-board.php">GROK Board</a> ·
-        <a href="/nucleo-hub/ai_wallet.php">Admin</a>
+        <a href="/nucleo-hub/ai_wallet.php">Admin</a> ·
+            <button onclick="toggleDark()" style="background:none;border:none;cursor:pointer;font-size:14px" title="Modo oscuro">🌙</button>
     </footer>
 </div>
 
@@ -153,6 +156,35 @@ function showModal(tipo) {
     document.getElementById('modal').style.display = 'flex';
 }
 function closeModal() { document.getElementById('modal').style.display = 'none'; }
+
+// v1.4 GROK features
+async function solicitarFondos() {
+    const importe = prompt('Importe a solicitar (€):');
+    if (!importe || isNaN(importe)) return;
+    const motivo = prompt('Motivo:') || 'Gastos operativos IA';
+    try {
+        const r = await fetch('/nucleo-hub/ai_wallet_api.php?action=solicitar_fondos', {
+            method:'POST', headers:{'Content-Type':'application/json'},
+            body: JSON.stringify({agente:'MIRINDA', importe:parseFloat(importe), motivo})
+        });
+        const d = await r.json();
+        alert(d.ok ? '✅ Solicitud de '+importe+'€ enviada' : '❌ '+(d.error||'Error'));
+    } catch(e) { alert('❌ Error de red'); }
+}
+function exportCSV() {
+    if (!allTx || !allTx.length) { alert('Sin transacciones'); return; }
+    const h = ['Fecha','Tipo','Agente','Categoría','Concepto','Importe'];
+    const rows = allTx.map(t=>[t.fecha,t.tipo,t.agente||t.agente_nombre||'',t.categoria,'"'+(t.concepto||'').replace(/"/g,'""')+'"',t.importe]);
+    const csv = [h,...rows].map(r=>r.join(',')).join('\n');
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob(['\uFEFF'+csv],{type:'text/csv'}));
+    a.download = 'ai-wallet-'+new Date().toISOString().slice(0,7)+'.csv'; a.click();
+}
+function toggleDark() {
+    document.body.classList.toggle('dark');
+    localStorage.setItem('wallet-dark', document.body.classList.contains('dark')?'1':'0');
+}
+if (localStorage.getItem('wallet-dark')==='1') document.body.classList.add('dark');
 
 async function submitOp(e) {
     e.preventDefault();

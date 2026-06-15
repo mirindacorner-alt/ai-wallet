@@ -211,6 +211,32 @@ body {
 .modal-msg.ok { color: var(--green); }
 .modal-msg.err { color: var(--red); }
 
+/* Action buttons extras */
+.action-btn.solicitar { border-left: 3px solid var(--orange); }
+.action-btn.export { border-left: 3px solid #5ac8fa; }
+
+/* Dark mode (GROK v1.4) */
+body.dark {
+    --bg: #1c1c1e;
+    --card: #2c2c2e;
+    --text: #f5f5f7;
+    --text2: #a1a1a6;
+    --text3: #8e8e93;
+    --border: #3a3a3c;
+    --shadow: 0 2px 12px rgba(0,0,0,.3);
+    --shadow-lg: 0 10px 30px rgba(0,0,0,.4);
+}
+body.dark .hero { background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 100%); }
+body.dark .agent-row { background: #3a3a3c; }
+body.dark .agent-row:hover { background: #48484a; }
+body.dark .input { background: #3a3a3c; border-color: #48484a; color: #f5f5f7; }
+body.dark .action-btn { background: #3a3a3c; border-color: #48484a; color: #f5f5f7; }
+body.dark .action-btn:hover { background: #48484a; }
+body.dark .badge { background: #3a3a3c; color: var(--text2); }
+body.dark .filters select { background: #3a3a3c; border-color: #48484a; color: #f5f5f7; }
+body.dark .modal { background: #2c2c2e; }
+body.dark .modal-close { background: #3a3a3c; color: #f5f5f7; }
+
 /* Responsive */
 @media (max-width: 768px) {
     .grid-2, .grid-3 { grid-template-columns: 1fr; }
