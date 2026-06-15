@@ -59,7 +59,22 @@ if ($w == 0) {
 }
 
 $action = $_GET['action'] ?? 'dashboard';
-$token = $_GET['token'] ?? '';
+
+// Security: token validation for sensitive actions (GROK suggestion)
+$API_TOKEN = 'mw_' . md5('mirinda_wallet_2026');
+if (in_array($action, ['gastar','ingresar','aprobar_solicitud','limite'])) {
+    $token = $_GET['token'] ?? $_SERVER['HTTP_X_WALLET_TOKEN'] ?? '';
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $body = json_decode(file_get_contents('php://input'), true) ?: [];
+        $token = $token ?: ($body['token'] ?? '');
+    }
+    // Allow from same origin (dashboard) or with valid token
+    $origin = $_SERVER['HTTP_ORIGIN'] ?? $_SERVER['HTTP_REFERER'] ?? '';
+    $is_local = strpos($origin, 'nucleoaccumbens.es') !== false;
+    if (!$is_local && $token !== $API_TOKEN) {
+        die(json_encode(['error' => 'Token requerido para acciones sensibles', 'hint' => 'Usa header X-Wallet-Token o param token']));
+    }
+}
 
 switch ($action) {
     case 'dashboard':
@@ -204,6 +219,20 @@ switch ($action) {
             $pdo->prepare("UPDATE ai_solicitudes SET estado='rechazada' WHERE id=?")->execute([$sid]);
             echo json_encode(['ok'=>true, 'rechazada'=>$sid]);
         }
+        break;
+
+    case 'chart':
+        $mes = date('Y-m');
+        $days = [];
+        for ($d = 1; $d <= (int)date('d'); $d++) {
+            $dia = sprintf('%s-%02d', $mes, $d);
+            $g = $pdo->prepare("SELECT COALESCE(SUM(importe),0) FROM ai_transacciones WHERE wallet_id=1 AND tipo='gasto' AND DATE(fecha)=?");
+            $g->execute([$dia]); $days[] = ['dia' => $d, 'gasto' => (float)$g->fetchColumn()];
+        }
+        // Acumulado
+        $acum = 0;
+        foreach($days as &$dd) { $acum += $dd['gasto']; $dd['acumulado'] = $acum; }
+        echo json_encode(['mes' => $mes, 'dias' => $days]);
         break;
 
     case 'resumen':

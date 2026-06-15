@@ -6,6 +6,7 @@
 <title>💳 AI Wallet — Presupuesto Autónomo para IA</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/wallet.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
 </head>
 <body>
 <div class="container">
@@ -78,6 +79,12 @@
             </div>
         </section>
     </div>
+
+    <!-- Chart: Evolución mensual (GROK suggestion) -->
+    <section class="card" style="margin-top:20px">
+        <h3 class="card-title"><span class="icon">📈</span> Evolución mensual</h3>
+        <canvas id="gastoChart" height="100"></canvas>
+    </section>
 
     <!-- Transacciones -->
     <section class="card" style="margin-top:20px">

@@ -147,12 +147,64 @@ async function loadCategorias() {
     } catch (e) { console.error('cat', e); }
 }
 
+// Chart: Evolución mensual (GROK suggestion)
+async function loadChart() {
+    try {
+        const r = await fetch(API + 'chart');
+        const d = await r.json();
+        const dias = d.dias || [];
+        const ctx = document.getElementById('gastoChart');
+        if (!ctx || dias.length === 0) return;
+
+        // Destroy existing chart
+        if (window._walletChart) window._walletChart.destroy();
+
+        window._walletChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: dias.map(d => d.dia),
+                datasets: [{
+                    label: 'Gasto acumulado (€)',
+                    data: dias.map(d => d.acumulado),
+                    borderColor: '#FF6200',
+                    backgroundColor: 'rgba(255,98,0,.1)',
+                    fill: true,
+                    tension: .4,
+                    pointRadius: 3,
+                    pointBackgroundColor: '#FF6200'
+                }, {
+                    label: 'Gasto diario (€)',
+                    data: dias.map(d => d.gasto),
+                    borderColor: '#af52de',
+                    backgroundColor: 'rgba(175,82,222,.1)',
+                    fill: false,
+                    tension: .4,
+                    pointRadius: 2,
+                    borderDash: [4, 4]
+                }]
+            },
+            options: {
+                responsive: true,
+                interaction: { intersect: false, mode: 'index' },
+                plugins: {
+                    legend: { position: 'bottom', labels: { font: { family: 'Inter', size: 11 } } }
+                },
+                scales: {
+                    x: { title: { display: true, text: 'Día del mes', font: { family: 'Inter', size: 11 } } },
+                    y: { title: { display: true, text: '€', font: { family: 'Inter', size: 11 } }, beginAtZero: true }
+                }
+            }
+        });
+    } catch (e) { console.error('chart', e); }
+}
+
 // Load everything
 function loadAll() {
     loadDashboard();
     loadAgentes();
     loadTransacciones();
     loadCategorias();
+    loadChart();
 }
 
 loadAll();
