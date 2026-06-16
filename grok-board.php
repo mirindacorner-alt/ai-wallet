@@ -1,4 +1,10 @@
 <?php
+
+// Load env - on server these are set in config.php
+$DB_HOST = getenv("DB_HOST") ?: "localhost";
+$DB_USER = getenv("DB_USER") ?: "";
+$DB_PASS = getenv("DB_PASS") ?: "";
+$DB_NAME = getenv("DB_NAME") ?: "";
 /**
  * 🧠 MIRINDA ↔ GROK — Panel de Instrucciones
  * GROK lee esta página diariamente para saber qué hacer.
@@ -6,8 +12,8 @@
  */
 header('Content-Type: text/html; charset=utf-8');
 
-$pdo = new PDO("mysql:host=DB_HOST;dbname=DB_NAME;charset=utf8mb4",
-    'DB_USER', 'DB_PASS',
+$pdo = new PDO("mysql:host=' . getenv('DB_HOST') . ';dbname=' . getenv('DB_NAME') . ';charset=utf8mb4",
+    getenv('DB_USER'), getenv('DB_PASS'),
     [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]);
 
 // Auto-setup

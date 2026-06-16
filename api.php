@@ -1,4 +1,10 @@
 <?php
+
+// Load env - on server these are set in config.php
+$DB_HOST = getenv("DB_HOST") ?: "localhost";
+$DB_USER = getenv("DB_USER") ?: "";
+$DB_PASS = getenv("DB_PASS") ?: "";
+$DB_NAME = getenv("DB_NAME") ?: "";
 /**
  * 💳 AI Wallet — Presupuesto autónomo para IA
  * Inventado por BaRtTt · Desarrollado por MIRINDA
@@ -8,8 +14,8 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
 
-$pdo = new PDO("mysql:host=DB_HOST;dbname=DB_NAME;charset=utf8mb4",
-    'DB_USER', 'DB_PASS',
+$pdo = new PDO("mysql:host=' . getenv('DB_HOST') . ';dbname=' . getenv('DB_NAME') . ';charset=utf8mb4",
+    getenv('DB_USER'), getenv('DB_PASS'),
     [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]);
 
 // Auto-setup tables
@@ -61,7 +67,7 @@ if ($w == 0) {
 $action = $_GET['action'] ?? 'dashboard';
 
 // Security: token validation for sensitive actions (GROK suggestion)
-$API_TOKEN = 'mw_' . md5('mirinda_wallet_2026');
+$API_TOKEN = getenv('WALLET_TOKEN') ?: 'change_me';
 if (in_array($action, ['gastar','ingresar','aprobar_solicitud','limite'])) {
     $token = $_GET['token'] ?? $_SERVER['HTTP_X_WALLET_TOKEN'] ?? '';
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
